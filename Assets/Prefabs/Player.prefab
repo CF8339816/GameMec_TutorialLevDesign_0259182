@@ -92,8 +92,10 @@ MonoBehaviour:
   SquashAndStretchRecoverSpeed: 5
   maxStepClimbable: 2
   maxTraversableSlope: 40
+  maxGroundedSlope: 65
   slideSpeed: 42
   platformGripForce: 7.7
+  extraGroundingHeightCheck: 0.1
   stompDamage: 1
   airRotationSpeed: 0.38
   airAcceleration: 18
@@ -104,6 +106,7 @@ MonoBehaviour:
   - {x: 0, y: 17, z: 6}
   chainJumpWindow: 0.1
   jumpBufferTime: 0.17
+  groundedTimeBeforeJump: 0.12
   jumpAudio: {fileID: 0}
   landAudio: {fileID: 0}
   onJumpPerformed:
@@ -127,7 +130,7 @@ MonoBehaviour:
   collisionAudioClip: {fileID: 0}
   damageAudioClip: {fileID: 0}
   deathAudioClip: {fileID: 0}
-  health: 20
+  health: 2
   takesCollisionDamageFromRigidbodies: 0
   takesCollisionDamageFromStaticbodies: 0
   minCollisionDamageVelocity: 0.2
@@ -471,6 +474,9 @@ TrailRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -860,7 +866,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &6382151894925839782
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -874,6 +880,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
