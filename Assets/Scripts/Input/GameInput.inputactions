@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "GameInput",
     "maps": [
         {
@@ -27,7 +28,7 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "a197a3a7-82e5-4702-9d0a-06d51366bcdb",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -36,7 +37,7 @@
                     "name": "CameraOrbit",
                     "type": "Value",
                     "id": "1f93c39c-0541-45cb-8cdd-e043967d370a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -285,7 +286,7 @@
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardMouse",
+                    "groups": ";KeyboardMouse",
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -315,7 +316,7 @@
                 {
                     "name": "negative",
                     "id": "4b1b97d6-24ef-4d16-adb9-09239b8f3cd7",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -326,7 +327,7 @@
                 {
                     "name": "positive",
                     "id": "1d4efbcc-89e0-4792-8a75-b963db80d63e",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/3",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
