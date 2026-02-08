@@ -137,8 +137,8 @@ public class GameManager : Singleton<GameManager>
     }
 
     public void ToggleShowPressStartToJoin()
-    {
-        MenuHelper.m_MiddleScreenLabel.text = PlayerController.players.Count == 0 ? "Press [ A ] on gamepad\nor [ Space ] to start!" : "";
+    {                                                                              //made adjustment to the code below to allow for more innstruction as i could not get my own canvases to display correctly in builds  archived the original code at the end of the line for restoration    
+        MenuHelper.m_MiddleScreenLabel.text = PlayerController.players.Count == 0 ? "Press [ E ] to interact with blocks;\n Press [ 1 ] to pan camera left;\nPress [ 3 ] to pan camera right;\n use Blocks to destroy the Red Barrier\nreach the green goal to complete the training level\n  [ Space ] to start!\n Version 0.0.4" : "";//"Press [ A ] on gamepad\nor [ Space ] to start!" : "";
     }
 
     bool _isShowingOtherMenu = false;
