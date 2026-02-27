@@ -99,11 +99,11 @@ public class Grappling : MonoBehaviour
         // Stop pulling if it gets too close
         if (distance > 1.5f)
         {
-            pulledObject.velocity = direction * pullSpeed;
+            pulledObject.linearVelocity = direction * pullSpeed;
         }
         else
         {
-            pulledObject.velocity = Vector3.zero;
+            pulledObject.linearVelocity = Vector3.zero;
         }
     }
 
