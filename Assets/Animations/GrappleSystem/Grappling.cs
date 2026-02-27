@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grappling : MonoBehaviour
+public class grappleScript : MonoBehaviour
 {
     [Header("References")]
    // private PlayerMovementGrappling pm;
