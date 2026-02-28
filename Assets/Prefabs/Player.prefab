@@ -360,12 +360,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   lr: {fileID: 0}
+  Grappler: {fileID: 4410705455603168424}
+  Cam: {fileID: 0}
   maxGrappleDistance: 50
   pullSpeed: 20
   stopDistance: 2.1
   grapplingCd: 1
   grappleKey: 324
-  Grappler: {fileID: 4410705455603168424}
 --- !u!1 &100018
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +469,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8725046023266915789
 Transform:
   m_ObjectHideFlags: 0
@@ -608,7 +609,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5296652006468249673
 Transform:
   m_ObjectHideFlags: 0

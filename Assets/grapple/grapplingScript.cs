@@ -10,7 +10,7 @@ public class PullGrapple : MonoBehaviour
     public LayerMask whatIsGrappleable;
     public LineRenderer lr;
     public GameObject Grappler;
-    public GameObject Cam;
+   // public GameObject Cam;
 
     [Header("Pull Settings")]
     public float maxGrappleDistance = 50f;
@@ -38,7 +38,7 @@ public class PullGrapple : MonoBehaviour
     {
         if (Input.GetKeyDown(grappleKey) && grapplingCdTimer <= 0)
         {
-           Cam.SetActive(true);
+            Grappler.SetActive(true);
             StartGrapple();
             Debug.Log("<color=green>You Whipped it out!</color>Time to grapple....");
 
@@ -88,7 +88,7 @@ public class PullGrapple : MonoBehaviour
     {
         if (pulledObject == null)
         {
-            Cam.SetActive(false);
+            Grappler.SetActive(false);
             StopGrapple();
             return;
         }
