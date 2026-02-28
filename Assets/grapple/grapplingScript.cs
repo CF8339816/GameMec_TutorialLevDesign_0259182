@@ -9,6 +9,8 @@ public class PullGrapple : MonoBehaviour
     public Transform grapplerTip;
     public LayerMask whatIsGrappleable;
     public LineRenderer lr;
+    public GameObject Grappler;
+    public GameObject Cam;
 
     [Header("Pull Settings")]
     public float maxGrappleDistance = 50f;
@@ -24,10 +26,11 @@ public class PullGrapple : MonoBehaviour
     [Header("Input")]
     public KeyCode grappleKey = KeyCode.Mouse1;
 
-    public GameObject Grappler;
+
 
     private void Start()
     {
+      //  lr = GetComponent<LineRenderer>();
         pm = GetComponent<PlayerController>();
     }
 
@@ -35,11 +38,16 @@ public class PullGrapple : MonoBehaviour
     {
         if (Input.GetKeyDown(grappleKey) && grapplingCdTimer <= 0)
         {
-            Grappler.SetActive(true);
+           Cam.SetActive(true);
             StartGrapple();
-        }
-        if (isPulling) ExecutePull();
+            Debug.Log("<color=green>You Whipped it out!</color>Time to grapple....");
 
+        }
+        if (isPulling)
+        {
+            ExecutePull();
+            Debug.Log("<color=blue>Yank that cable back!</color>Bring it on back....");
+        }
         if (grapplingCdTimer > 0)
             grapplingCdTimer -= Time.deltaTime;
     }
@@ -65,8 +73,8 @@ public class PullGrapple : MonoBehaviour
         {
             pulledObject = hit.collider.gameObject;
             targetRb = pulledObject.GetComponent<Rigidbody>(); //  targets the raycast to the objects ridgid body
+            Debug.Log("<color=green> We have connection !</color>Fuirst contact....");
 
-           
             if (targetRb != null)// prevenmts pulling objects with no ridgid body
             {
                 isPulling = true;
@@ -80,7 +88,7 @@ public class PullGrapple : MonoBehaviour
     {
         if (pulledObject == null)
         {
-            Grappler.SetActive(false);
+            Cam.SetActive(false);
             StopGrapple();
             return;
         }
