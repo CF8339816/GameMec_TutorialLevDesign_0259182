@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
    // public Transform CheckPointTowerTop;
    // public Transform CheckPointTowerMid;
    public Camera firstPersonCam;
-    //public Camera grappleCamera;
+   public Camera grappleCamera;
     private float targetSpeed;
     private float currentHorizontalSpeed;
     private Vector3 currentMovementInput;
@@ -100,8 +100,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Awake()
     {
-       
-        
+
         players.Add(this);
         // Ensure correct tag for player identification
         if(!gameObject.CompareTag("Player"))
@@ -131,6 +130,13 @@ public class PlayerController : MonoBehaviour
 
         glideControl = GetComponent<GlideControl>();////////////
 
+        //if (firstPersonCam) firstPersonCam.enabled = true;
+
+        //if (playerInput != null && firstPersonCam != null)
+        //{
+        //    playerInput.camera = firstPersonCam;
+        //}
+        /////////////////
     }
 
     public void Start()
@@ -141,6 +147,17 @@ public class PlayerController : MonoBehaviour
             return;
         }
         CheckpointManager.TeleportPlayerToCheckpoint(gameObject);
+
+        if (TryGetComponent(out GlideControl glide))//ensures not gliding
+        {
+            glide.StopGliding();
+        }
+      
+        ResetVelocity(); // to prevent freefall hanf at spawn
+        moveController.enabled = true;
+
+
+
     }
 
     /// <summary>
@@ -170,16 +187,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!GameManager.Instance.IsShowingPauseMenu)
             moveController.RequestJump();
-////////////////
-        if (!moveController.isGrounded && glideControl != null)
-        {
-            glideControl.StartGliding();
-        }
-        else
-        {
-            moveController.RequestJump();
-        }
-/////////////////
+
     }
 
     void OnPause()
