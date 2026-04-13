@@ -6,20 +6,22 @@ using UnityEngine.InputSystem;
 /// Handles player input, animation, and feedback effects for character movement.
 /// Works in conjunction with AdvancedMoveController to provide a complete character control system.
 /// </summary>
-[RequireComponent(typeof(AdvancedMoveController))]
+[RequireComponent(typeof(AdvancedMoveController), typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     /// <summary>
-    //my addedvariables
+    //my added variables
+    /////
+
    // public Transform CheckPointGround;
    // public Transform CheckPointTowerTop;
    // public Transform CheckPointTowerMid;
    public Camera firstPersonCam;
-   public Camera grappleCamera;
-    private float targetSpeed;
-    private float currentHorizontalSpeed;
-    private Vector3 currentMovementInput;
-    private Vector3 smoothMoveVelocity;
+ //  public Camera grappleCamera;
+    //private float targetSpeed;
+    //private float currentHorizontalSpeed;
+    //private Vector3 currentMovementInput;
+    //private Vector3 smoothMoveVelocity;
     [SerializeField] LayerMask groundMask;
     [SerializeField] float gravity = -9.8f; //has to be neg because is downward force
     public Vector3 externalVelocity;
@@ -27,7 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Transform ActiveCheckPoint;
     public AdvancedMoveController moveController;
 
-    private GlideControl glideControl;
+   private GlideControl glideControl;
 
     /// </summary>
 
@@ -54,11 +56,15 @@ public class PlayerController : MonoBehaviour
     // My added methods
     public void SetVerticalVelocity(float y)
     {
-        velocity.y = y;
+        //velocity.y = y;
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, y, rb.linearVelocity.z);
     }
+
     public void ResetVelocity()
     {
-        velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        // velocity = Vector3.zero;
     }
 
     public Vector2 GetInputVector()
@@ -66,14 +72,7 @@ public class PlayerController : MonoBehaviour
         return inputVector;
     }
 
-
-
     /// </summary>
-
-
-
-
-
 
     private void OnEnable()
     {
@@ -106,32 +105,47 @@ public class PlayerController : MonoBehaviour
         if(!gameObject.CompareTag("Player"))
             tag = "Player";
 
-        TryGetComponent(out playerInput);
-        TryGetComponent(out dashController);
 
         // Cache component references
+         rb = GetComponent<Rigidbody>(); 
         moveController = GetComponent<AdvancedMoveController>();
-        rb = GetComponent<Rigidbody>();
+   
         CameraFollower = GetComponentInChildren<ThirdPersonCamera>();
         characterAnimator = GetComponentInChildren<Animator>();
         healthComponent = GetComponent<HealthController>();
 
+        TryGetComponent(out playerInput);
+        TryGetComponent(out dashController);
+ 
+        glideControl = GetComponent<GlideControl>();////////////
+        if (firstPersonCam)
+        {
+            firstPersonCam.enabled = false;
+        }
         if (CameraFollower)
         {
-            if (playerInput.camera == null) {
-                //Debug.Log(actions["Jump"].GetBindingDisplayString());
-                playerInput.camera = CameraFollower.GetComponent<Camera>();
-            }
-            CameraFollower.transform.SetParent(transform.parent);
-            DontDestroyOnLoad(CameraFollower.gameObject);
+            //if (playerInput.camera == null) 
+            //{
+                if (playerInput != null)
+                {
+                    playerInput.camera = CameraFollower.GetComponent<Camera>();
+                }
+                CameraFollower.transform.SetParent(null);
+                DontDestroyOnLoad(CameraFollower.gameObject);
+
+                ////Debug.Log(actions["Jump"].GetBindingDisplayString());
+                //playerInput.camera = CameraFollower.GetComponent<Camera>();
+            //}
+            //CameraFollower.transform.SetParent(transform.parent);
+            //DontDestroyOnLoad(CameraFollower.gameObject);
         }
 
         DontDestroyOnLoad(gameObject);
 
-        glideControl = GetComponent<GlideControl>();////////////
+      
 
-        //if (firstPersonCam) firstPersonCam.enabled = true;
-
+      if (firstPersonCam) firstPersonCam.enabled = false;
+       // if (grappleCamera) grappleCamera.enabled = false;
         //if (playerInput != null && firstPersonCam != null)
         //{
         //    playerInput.camera = firstPersonCam;
@@ -146,17 +160,19 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        if (glideControl)// ensures glide is turned off
+        {
+            glideControl.StopGliding();
+        }
+
         CheckpointManager.TeleportPlayerToCheckpoint(gameObject);
 
-        if (TryGetComponent(out GlideControl glide))//ensures not gliding
-        {
-            glide.StopGliding();
-        }
+       
       
         ResetVelocity(); // to prevent freefall hanf at spawn
         moveController.enabled = true;
 
-
+        Physics.SyncTransforms();// forces move ctlr to see floor
 
     }
 
@@ -206,7 +222,10 @@ public class PlayerController : MonoBehaviour
 
     void OnCameraOrbit(InputValue inputVal)
     {
-        CameraFollower.OrbitInput = inputVal.Get<float>();
+        if (CameraFollower)
+        {
+            CameraFollower.OrbitInput = inputVal.Get<float>();
+        }
     }
 
     /// <summary>
@@ -214,6 +233,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (CameraFollower == null)
+        {
+            return;
+        }
         // Convert input to camera-relative movement direction
         Quaternion cameraRotation = Quaternion.Euler(0, CameraFollower.transform.eulerAngles.y, 0);
         cameraAlignedForward = cameraRotation * Vector3.forward;
@@ -227,7 +250,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
-        if (moveController.enabled) {
+        if (moveController.enabled) 
+        {
             moveController.ApplyMovement(moveDirection);
             moveController.UpdateMovement();
         }
@@ -235,10 +259,15 @@ public class PlayerController : MonoBehaviour
         // Normal movement
         UpdateVisualFeedback();
 
-        if (transform.position.y < -1000f) {
+        if (transform.position.y < -1000f)
+        {
             CheckpointManager.TeleportPlayerToCheckpoint(gameObject);
+            ResetVelocity();
+
             if (CameraFollower)
+            {
                 CameraFollower.transform.position = gameObject.transform.position;
+            }
         }
     }
 
@@ -249,8 +278,9 @@ public class PlayerController : MonoBehaviour
     {
         if (!characterAnimator) return;
 
+
         // Update animator parameters
-        characterAnimator.SetFloat(MovementController.AnimationID_DistanceToTarget, moveController.distanceToDestination);
+        //characterAnimator.SetFloat(MovementController.AnimationID_DistanceToTarget, moveController.distanceToDestination);
         characterAnimator.SetBool(MovementController.AnimationID_IsGrounded, moveController.isGrounded);
         characterAnimator.SetFloat(MovementController.AnimationID_YVelocity, rb.linearVelocity.y);
     }

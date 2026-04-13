@@ -5,7 +5,7 @@ public class GlideControl : MonoBehaviour
 {
     [Header("Glide Settings")]
     public float glideGravity = -2f;
-    public float glideSpeed = 20f;
+    public float glideSpeed = 15f;
     public float turnSpeed = 100f;
     public GameObject GliderShell;
     public float horizontalInput = 0;

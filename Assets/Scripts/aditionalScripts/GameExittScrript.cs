@@ -5,19 +5,19 @@ using UnityEngine;
 
 public class GameOverManager : MonoBehaviour
 {
-    public float ExitDelay = 5f;
-    public TextMeshProUGUI exitCountdownText;
-    private float Countdown;
+   // public float ExitDelay = 5f;
+    public TextMeshProUGUI ExitText;
+    //private float Countdown;
     private bool isExiting = false;
 
 
     void Awake()
     {
-        Countdown = ExitDelay;
+        //Countdown = ExitDelay;
 
-        if (exitCountdownText != null)
+        if (ExitText != null)
         {
-            exitCountdownText.text = "";
+            ExitText.text = "";
         }
     }
 
@@ -41,15 +41,32 @@ public class GameOverManager : MonoBehaviour
     }
     IEnumerator StartExitCountdown()
     {
-        while (Countdown > 0)
-        {        
-            exitCountdownText.text = "Game Exit in: " + Mathf.Ceil(Countdown).ToString();// displays the countdown output in an always rounded up to whole int
-            yield return null;
-                    
-            Countdown -= Time.deltaTime;
-        }
+        float timer = 5f;
+        
 
-        exitCountdownText.text = "Exiting...";
+        while (timer > 0)
+        {
+            if (ExitText != null)
+            {
+                ExitText.text = "Exiting in: " + Mathf.Ceil(timer).ToString();
+            }
+            else
+            {
+                Debug.LogWarning("UI Text is missing from GameOverManager Inspector! Still counting down...");
+            }
+
+            timer -= Time.deltaTime;
+            yield return null; 
+        }
+        //while (Countdown > 0)
+        //{
+        //    ExitText.text = "Game Exit in: " + Mathf.Ceil(Countdown).ToString();// displays the countdown output in an always rounded up to whole int
+        //    yield return null;
+
+        //    Countdown -= Time.deltaTime;
+        //}
+
+        //ExitText.text = "Exiting...";
         ExitGame();
     }
 

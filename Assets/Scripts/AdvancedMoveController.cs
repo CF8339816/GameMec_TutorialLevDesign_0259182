@@ -22,7 +22,7 @@ public class AdvancedMoveController : MovementController
     [Tooltip("Force multiplier to maintain position on moving platforms")]
     public float platformGripForce = 7.7f;
     [Tooltip("Extra height to add to ground check")]
-    public float extraGroundingHeightCheck = 0.1f;
+    public float extraGroundingHeightCheck = 0.5f;
 
     [Header("Combat")]
     [Tooltip("Damage applied when jumping on an enemy")]

@@ -2442,9 +2442,10 @@ GameObject:
   - component: {fileID: 530822012}
   - component: {fileID: 530822014}
   - component: {fileID: 530822013}
+  - component: {fileID: 530822016}
   m_Layer: 6
   m_Name: FPSGrappleCam
-  m_TagString: Untagged
+  m_TagString: grappleCam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2567,6 +2568,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1076001443}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &530822016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530822011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef890198a5993814a8328ec3f7933381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSensitivity: 100
+  scrollSpeed: 1010
+  minZ: -155
+  maxZ: 122
 --- !u!4 &566709479 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: b9de8d968ab5cba4bad582c1f4e1d371,
@@ -3549,11 +3566,11 @@ GameObject:
   - component: {fileID: 961739750}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &961739750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4925,6 +4942,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: ac79453cdfd497e4fb70bd15a2766204, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: ac79453cdfd497e4fb70bd15a2766204, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ac79453cdfd497e4fb70bd15a2766204, type: 3}
       propertyPath: m_LocalPosition.x
       value: 24.585249
@@ -5981,7 +6006,7 @@ PrefabInstance:
         type: 3}
       propertyPath: firstPersonCam
       value: 
-      objectReference: {fileID: 1790220367}
+      objectReference: {fileID: 530822012}
     - target: {fileID: 2738380567816245834, guid: 11a0fc37ad0fcd84ea652130b8070601,
         type: 3}
       propertyPath: moveController
@@ -6723,12 +6748,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!20 &1790220367 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 2000000, guid: ac79453cdfd497e4fb70bd15a2766204,
-    type: 3}
-  m_PrefabInstance: {fileID: 1268654627}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1792646540
 PrefabInstance:
   m_ObjectHideFlags: 0
