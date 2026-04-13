@@ -2,44 +2,33 @@ using UnityEngine;
 
 public class KillBoxManager : MonoBehaviour
 {
-    Transform targetCheckPoint;
-    public PlayerController playerScript;
+    public Transform targetCheckPoint;
+  
 
-    //[SerializeField] private Transform respawnPoint;
-    //void Start()
-    //{
-    //    targetCheckPoint = playerScript.ActiveCheckPoint;
-
-    //}
+   
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            PlayerController playerScript = other.GetComponent<PlayerController>();
-
-            if (playerScript == null)
-            {
-                Debug.LogError("KillBox hit something tagged Player, but tthere is no player controler script!");
-                return;
-            }
-
-            //Transform targetCheckPoint = playerScript.ActiveCheckPoint;
-            CharacterController charCtrlr = other.GetComponent<CharacterController>();
-
-            if (charCtrlr != null && targetCheckPoint != null)
-            {
-
-                charCtrlr.enabled = false;
-
-
-                other.transform.position = targetCheckPoint.position;
-
-
-                //playerScript.Health = 1;
-                playerScript.ResetVelocity();
-
-                charCtrlr.enabled = true;
-            }
+            TeleportPlayer(other.gameObject);
         }
+    }
+
+    private void TeleportPlayer(GameObject player)
+    {
+        // IMPORTANT: If you use a CharacterController, you MUST disable it to teleport
+        if (player.TryGetComponent(out CharacterController charCtrlr))
+        {
+            charCtrlr.enabled = false;
+            player.transform.position = targetCheckPoint.position;
+            charCtrlr.enabled = true;
+        }
+        else
+        {
+            // Standard teleport for objects without CharacterControllers
+            player.transform.position = targetCheckPoint.position;
+        }
+
+        Debug.Log("Player teleported to: " + targetCheckPoint.name);
     }
 }

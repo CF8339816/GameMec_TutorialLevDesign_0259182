@@ -33,6 +33,7 @@ public class GrappleGunCtrl : MonoBehaviour
             NormalDotSite.enabled = true;
         }
         lineRender.positionCount = 0;
+        if (NormalDotSite != null) NormalDotSite.enabled = false;
     }
 
     void Update()
@@ -83,28 +84,37 @@ public class GrappleGunCtrl : MonoBehaviour
             if (Vector3.Distance(targetBody.position, barrel.position) < 1.5f) StopGrapple();
         }
     }
-
+    Transform GetActiveCameraTransform()
+    {
+        if (playerScript.firstPersonCam != null && playerScript.firstPersonCam.enabled)
+        {
+            return playerScript.firstPersonCam.transform;
+        }
+        return playerScript.CameraFollower.transform;
+    }
     void UpdateCrosshairVisibility()
     {
-        if (canGrappleCrosshair == null) return;
+        if (playerScript.firstPersonCam != null && playerScript.firstPersonCam.enabled)//Runs if grapple turned on
+        {
+            Transform camTransform = playerScript.firstPersonCam.transform;
+            bool canGrapple = Physics.Raycast(camTransform.position, camTransform.forward, out RaycastHit hit, maxDistance, Grappleable);
 
-        Transform camTransform = playerScript.firstPersonCam.transform;
-
-        bool canGrapple = Physics.Raycast(camTransform.position, camTransform.forward, out RaycastHit hit, maxDistance, Grappleable);
-
-        canGrappleCrosshair.enabled = canGrapple;
-        if (NormalDotSite != null) NormalDotSite.enabled = !canGrapple;
-        
-        //Transform camTransform = playerScript.firstPersonCam.transform;
-        //bool canGrapple = Physics.Raycast(camTransform.position, camTransform.forward, out RaycastHit hit, maxDistance, Grappleable);
-
-        //canGrappleCrosshair.enabled = canGrapple;
-        //NormalDotSite.enabled = !canGrapple;
+           
+            if (canGrappleCrosshair != null) canGrappleCrosshair.enabled = canGrapple;
+            if (NormalDotSite != null) NormalDotSite.enabled = !canGrapple;
+        }
+        else// if grapple off hide both
+        {
+            
+            if (canGrappleCrosshair != null) canGrappleCrosshair.enabled = false;
+            if (NormalDotSite != null) NormalDotSite.enabled = false;
+        }
     }
 
     void StartPullPlayer()
     {
-        Transform camTransform = playerScript.firstPersonCam.transform;
+        Transform camTransform = GetActiveCameraTransform();
+
         if (Physics.Raycast(camTransform.position, camTransform.forward, out RaycastHit hit, maxDistance, Grappleable))
         {
             grapplePoint = hit.point;

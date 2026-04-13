@@ -11,15 +11,18 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TransitionScene.unity
     guid: d4cd4fc9072dc90478a05345516e53fa
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ChrisF-Level/CF-Tut-SCN.unity
     guid: 6b1daeeed158d274d81d186bffb2f01b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ChrisF-Level/complete.unity
     guid: f8e6b1e75a85809479a3cc99dc41f2ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ChrisF-Level/stage2.unity
     guid: 4b08428ed7e8ecb4bbb481544b421177
+  - enabled: 1
+    path: Assets/Scenes/CF_ImplimentNewFunction/tutLevRedoux.unity
+    guid: f8bdbad0b56f75649b0e8efd80e518ba
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 885c5916c7dff26438524d41106c7fbc,
       type: 2}

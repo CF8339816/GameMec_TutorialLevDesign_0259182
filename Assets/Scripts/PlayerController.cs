@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -13,15 +15,8 @@ public class PlayerController : MonoBehaviour
     //my added variables
     /////
 
-   // public Transform CheckPointGround;
-   // public Transform CheckPointTowerTop;
-   // public Transform CheckPointTowerMid;
    public Camera firstPersonCam;
- //  public Camera grappleCamera;
-    //private float targetSpeed;
-    //private float currentHorizontalSpeed;
-    //private Vector3 currentMovementInput;
-    //private Vector3 smoothMoveVelocity;
+ //
     [SerializeField] LayerMask groundMask;
     [SerializeField] float gravity = -9.8f; //has to be neg because is downward force
     public Vector3 externalVelocity;
@@ -36,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     public ThirdPersonCamera CameraFollower {get; private set;}
     private Animator characterAnimator;
-  //  private AdvancedMoveController moveController;
+ 
     private Rigidbody rb;
     private DashController dashController;
     
@@ -52,6 +47,14 @@ public class PlayerController : MonoBehaviour
     public bool JoinedThroughGameManager { get; set; } = false;
     public static List<PlayerController> players = new List<PlayerController>();
 
+
+    [Header("Grapple Targeting")]
+    public float mouseSensitivity = 2.0f;
+    private float verticalRotation = 0f;
+    private bool isGrappleMode = false;
+    public UnityEngine.UI.Image dotSite;
+    public TextMeshProUGUI grapStatTxt;
+    public GameObject Grappler;
     /// <summary>
     // My added methods
     public void SetVerticalVelocity(float y)
@@ -167,8 +170,11 @@ public class PlayerController : MonoBehaviour
 
         CheckpointManager.TeleportPlayerToCheckpoint(gameObject);
 
-       
-      
+        if (grapStatTxt != null)
+        {
+            grapStatTxt.text = "GRAPPLE MODE: OFF";
+        }
+
         ResetVelocity(); // to prevent freefall hanf at spawn
         moveController.enabled = true;
 
@@ -243,6 +249,96 @@ public class PlayerController : MonoBehaviour
         cameraAlignedRight = cameraRotation * Vector3.right;
         
         moveDirection = ((cameraAlignedForward * inputVector.y) + (cameraAlignedRight * inputVector.x)).normalized;
+
+        if (Keyboard.current.gKey.wasPressedThisFrame)
+        {
+            ToggleGrappleMode();
+        }
+
+        if (isGrappleMode)
+        {
+            HandleFirstPersonAiming();
+        }
+        else
+        {
+            HandleThirdPersonMovement();
+        }
+    }
+
+
+    private void ToggleGrappleMode()
+    {
+        if (Grappler != null)
+        {
+            Grappler.SetActive(isGrappleMode);
+        }
+
+        isGrappleMode = !isGrappleMode;
+
+        if (firstPersonCam != null)
+        {
+            firstPersonCam.enabled = isGrappleMode;
+
+            if (firstPersonCam.TryGetComponent(out AudioListener fpListener))
+            {
+                fpListener.enabled = isGrappleMode;
+            }
+        }   
+        
+        
+        if (CameraFollower != null)
+        {
+            CameraFollower.GetComponent<Camera>().enabled = !isGrappleMode;
+            //CameraFollower.gameObject.SetActive(!isGrappleMode);
+
+            if (CameraFollower.TryGetComponent(out AudioListener tpListener))
+            {
+                tpListener.enabled = !isGrappleMode;
+            }
+        }
+            
+            if (dotSite != null)
+        {
+            dotSite.enabled = isGrappleMode;
+        }
+
+        if (grapStatTxt != null)
+        {
+            grapStatTxt.text = isGrappleMode ? "GRAPPLE MODE: ON" : "GRAPPLE MODE: OFF";
+
+        }
+
+        Cursor.lockState = isGrappleMode ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !isGrappleMode;
+    }
+
+    private void HandleFirstPersonAiming()
+    {
+        Vector2 mouseDelta = Mouse.current.delta.ReadValue() * mouseSensitivity * 0.1f;
+
+        transform.Rotate(Vector3.up * mouseDelta.x);
+
+        verticalRotation -= mouseDelta.y;
+        verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f); 
+        if (firstPersonCam)
+        {
+            firstPersonCam.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+        }
+
+        moveDirection = Vector3.zero;
+    }
+
+    private void HandleThirdPersonMovement()
+    {
+        if (CameraFollower == null)
+        {
+            return;
+        }
+        Quaternion cameraRotation = Quaternion.Euler(0, CameraFollower.transform.eulerAngles.y, 0);
+        Vector3 forward = cameraRotation * Vector3.forward;
+        Vector3 right = cameraRotation * Vector3.right;
+
+        moveDirection = ((forward * inputVector.y) + (right * inputVector.x)).normalized;
     }
 
     /// <summary>
@@ -286,3 +382,4 @@ public class PlayerController : MonoBehaviour
     }
 
 } 
+
