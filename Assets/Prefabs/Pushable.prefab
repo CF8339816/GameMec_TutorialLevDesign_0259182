@@ -149,5 +149,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5276e79092c6d30449cae961851709a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jointBreakForce: 200
-  jointBreakTorque: 200
+  jointBreakForce: 20
+  jointBreakTorque: 20

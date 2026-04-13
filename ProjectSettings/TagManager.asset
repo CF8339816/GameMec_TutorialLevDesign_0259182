@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Water
   - grappleTarget
+  - ground
   layers:
   - Default
   - TransparentFX
@@ -26,8 +27,8 @@ TagManager:
   - Invulnerable
   - PickedUpObject
   - Grappleable
-  - 
-  - 
+  - ground
+  - KillBox
   - 
   - 
   - 
