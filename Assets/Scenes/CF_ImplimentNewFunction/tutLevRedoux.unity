@@ -4369,8 +4369,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Activate grapple with [G] key. \n Press middle mouse to grapple climb 
-    and right mouse to grapple pull"
+  m_text: ' Purple Pad will launch you so you can use the glider to cross the water
+    and reach the bluff withthe green goal. if you mis there is a backup goal below
+    the cliff since the grapple is out of order. -Management'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

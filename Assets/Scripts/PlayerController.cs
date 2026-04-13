@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour
 
         if (grapStatTxt != null)
         {
-            grapStatTxt.text = "GRAPPLE MODE: OFF";
+            grapStatTxt.text = "GRAPPLE MODE: Out of Order";
         }
 
         ResetVelocity(); // to prevent freefall hanf at spawn
@@ -250,96 +250,96 @@ public class PlayerController : MonoBehaviour
         
         moveDirection = ((cameraAlignedForward * inputVector.y) + (cameraAlignedRight * inputVector.x)).normalized;
 
-        if (Keyboard.current.gKey.wasPressedThisFrame)
-        {
-            ToggleGrappleMode();
-        }
+        //if (Keyboard.current.gKey.wasPressedThisFrame)
+        //{
+        //    ToggleGrappleMode();
+        //}
 
-        if (isGrappleMode)
-        {
-            HandleFirstPersonAiming();
-        }
-        else
-        {
-            HandleThirdPersonMovement();
-        }
+        //if (isGrappleMode)
+        //{
+        //    HandleFirstPersonAiming();
+        //}
+        //else
+        //{
+        //    HandleThirdPersonMovement();
+        //}
     }
 
 
-    private void ToggleGrappleMode()
-    {
-        if (Grappler != null)
-        {
-            Grappler.SetActive(isGrappleMode);
-        }
+    //private void ToggleGrappleMode()
+    //{
+    //    if (Grappler != null)
+    //    {
+    //        Grappler.SetActive(isGrappleMode);
+    //    }
 
-        isGrappleMode = !isGrappleMode;
+    //    isGrappleMode = !isGrappleMode;
 
-        if (firstPersonCam != null)
-        {
-            firstPersonCam.enabled = isGrappleMode;
+    //    if (firstPersonCam != null)
+    //    {
+    //        firstPersonCam.enabled = isGrappleMode;
 
-            if (firstPersonCam.TryGetComponent(out AudioListener fpListener))
-            {
-                fpListener.enabled = isGrappleMode;
-            }
-        }   
+    //        if (firstPersonCam.TryGetComponent(out AudioListener fpListener))
+    //        {
+    //            fpListener.enabled = isGrappleMode;
+    //        }
+    //    }   
         
         
-        if (CameraFollower != null)
-        {
-            CameraFollower.GetComponent<Camera>().enabled = !isGrappleMode;
-            //CameraFollower.gameObject.SetActive(!isGrappleMode);
+    //    if (CameraFollower != null)
+    //    {
+    //        CameraFollower.GetComponent<Camera>().enabled = !isGrappleMode;
+    //        //CameraFollower.gameObject.SetActive(!isGrappleMode);
 
-            if (CameraFollower.TryGetComponent(out AudioListener tpListener))
-            {
-                tpListener.enabled = !isGrappleMode;
-            }
-        }
+    //        if (CameraFollower.TryGetComponent(out AudioListener tpListener))
+    //        {
+    //            tpListener.enabled = !isGrappleMode;
+    //        }
+    //    }
             
-            if (dotSite != null)
-        {
-            dotSite.enabled = isGrappleMode;
-        }
+    //        if (dotSite != null)
+    //    {
+    //        dotSite.enabled = isGrappleMode;
+    //    }
 
-        if (grapStatTxt != null)
-        {
-            grapStatTxt.text = isGrappleMode ? "GRAPPLE MODE: ON" : "GRAPPLE MODE: OFF";
+    //    if (grapStatTxt != null)
+    //    {
+    //        grapStatTxt.text = isGrappleMode ? "GRAPPLE MODE: ON" : "GRAPPLE MODE: OFF";
 
-        }
+    //    }
 
-        Cursor.lockState = isGrappleMode ? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible = !isGrappleMode;
-    }
+    //    Cursor.lockState = isGrappleMode ? CursorLockMode.Locked : CursorLockMode.None;
+    //    Cursor.visible = !isGrappleMode;
+    //}
 
-    private void HandleFirstPersonAiming()
-    {
-        Vector2 mouseDelta = Mouse.current.delta.ReadValue() * mouseSensitivity * 0.1f;
+    //private void HandleFirstPersonAiming()
+    //{
+    //    Vector2 mouseDelta = Mouse.current.delta.ReadValue() * mouseSensitivity * 0.1f;
 
-        transform.Rotate(Vector3.up * mouseDelta.x);
+    //    transform.Rotate(Vector3.up * mouseDelta.x);
 
-        verticalRotation -= mouseDelta.y;
-        verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f); 
-        if (firstPersonCam)
-        {
-            firstPersonCam.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
-        }
+    //    verticalRotation -= mouseDelta.y;
+    //    verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f); 
+    //    if (firstPersonCam)
+    //    {
+    //        firstPersonCam.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+    //    }
 
-        moveDirection = Vector3.zero;
-    }
+    //    moveDirection = Vector3.zero;
+    //}
 
-    private void HandleThirdPersonMovement()
-    {
-        if (CameraFollower == null)
-        {
-            return;
-        }
-        Quaternion cameraRotation = Quaternion.Euler(0, CameraFollower.transform.eulerAngles.y, 0);
-        Vector3 forward = cameraRotation * Vector3.forward;
-        Vector3 right = cameraRotation * Vector3.right;
+    //private void HandleThirdPersonMovement()
+    //{
+    //    if (CameraFollower == null)
+    //    {
+    //        return;
+    //    }
+    //    Quaternion cameraRotation = Quaternion.Euler(0, CameraFollower.transform.eulerAngles.y, 0);
+    //    Vector3 forward = cameraRotation * Vector3.forward;
+    //    Vector3 right = cameraRotation * Vector3.right;
 
-        moveDirection = ((forward * inputVector.y) + (right * inputVector.x)).normalized;
-    }
+    //    moveDirection = ((forward * inputVector.y) + (right * inputVector.x)).normalized;
+    //}
 
     /// <summary>
     /// Handle physics-based movement and animation updates
