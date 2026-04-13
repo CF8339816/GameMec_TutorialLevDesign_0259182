@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 2738380567816245834}
   - component: {fileID: -5442971658099831192}
   - component: {fileID: 6436721417596875277}
-  - component: {fileID: 7253500995797512453}
   - component: {fileID: 267638305379427304}
   m_Layer: 6
   m_Name: Player
@@ -208,6 +207,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78809cbc93786b4438fd542ac0d8545f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CheckPointGround: {fileID: 0}
+  CheckPointTowerTop: {fileID: 0}
+  CheckPointTowerMid: {fileID: 0}
+  firstPersonCam: {fileID: 0}
+  grappleCamera: {fileID: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  gravity: -9.8
+  externalVelocity: {x: 0, y: 0, z: 0}
+  moveController: {fileID: 0}
 --- !u!114 &-5442971658099831192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,18 +354,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   dashTrailColor: {r: 0.55722225, g: 0.41870406, b: 0.81886786, a: 1}
---- !u!114 &7253500995797512453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7efe770274c50140bddd46677a1d3d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!120 &267638305379427304
 LineRenderer:
   serializedVersion: 2

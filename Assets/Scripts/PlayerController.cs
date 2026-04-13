@@ -9,9 +9,32 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(AdvancedMoveController))]
 public class PlayerController : MonoBehaviour
 {
+    /// <summary>
+    //my addedvariables
+   // public Transform CheckPointGround;
+   // public Transform CheckPointTowerTop;
+   // public Transform CheckPointTowerMid;
+   public Camera firstPersonCam;
+    //public Camera grappleCamera;
+    private float targetSpeed;
+    private float currentHorizontalSpeed;
+    private Vector3 currentMovementInput;
+    private Vector3 smoothMoveVelocity;
+    [SerializeField] LayerMask groundMask;
+    [SerializeField] float gravity = -9.8f; //has to be neg because is downward force
+    public Vector3 externalVelocity;
+    private Vector3 velocity;
+    [SerializeField] public Transform ActiveCheckPoint;
+    public AdvancedMoveController moveController;
+
+    private GlideControl glideControl;
+
+    /// </summary>
+
+
     public ThirdPersonCamera CameraFollower {get; private set;}
     private Animator characterAnimator;
-    private AdvancedMoveController moveController;
+  //  private AdvancedMoveController moveController;
     private Rigidbody rb;
     private DashController dashController;
     
@@ -26,6 +49,29 @@ public class PlayerController : MonoBehaviour
     
     public bool JoinedThroughGameManager { get; set; } = false;
     public static List<PlayerController> players = new List<PlayerController>();
+
+    /// <summary>
+    // My added methods
+    public void SetVerticalVelocity(float y)
+    {
+        velocity.y = y;
+    }
+    public void ResetVelocity()
+    {
+        velocity = Vector3.zero;
+    }
+
+
+
+
+
+    /// </summary>
+
+
+
+
+
+
     private void OnEnable()
     {
         if(moveController != null)
@@ -51,6 +97,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Awake()
     {
+       
+        
         players.Add(this);
         // Ensure correct tag for player identification
         if(!gameObject.CompareTag("Player"))
@@ -77,6 +125,9 @@ public class PlayerController : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+
+        glideControl = GetComponent<GlideControl>();////////////
+
     }
 
     public void Start()
@@ -116,6 +167,16 @@ public class PlayerController : MonoBehaviour
     {
         if (!GameManager.Instance.IsShowingPauseMenu)
             moveController.RequestJump();
+////////////////
+        if (!moveController.isGrounded && glideControl != null)
+        {
+            glideControl.StartGliding();
+        }
+        else
+        {
+            moveController.RequestJump();
+        }
+/////////////////
     }
 
     void OnPause()
