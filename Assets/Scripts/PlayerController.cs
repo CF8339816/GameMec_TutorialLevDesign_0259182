@@ -61,7 +61,10 @@ public class PlayerController : MonoBehaviour
         velocity = Vector3.zero;
     }
 
-
+    public Vector2 GetInputVector()
+    {
+        return inputVector;
+    }
 
 
 

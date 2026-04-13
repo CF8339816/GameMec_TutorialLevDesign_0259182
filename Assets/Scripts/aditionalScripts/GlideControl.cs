@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GlideControl : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class GlideControl : MonoBehaviour
     public float glideSpeed = 10f;
     public float turnSpeed = 100f;
     public GameObject Glider; 
-
+    public float horizontalInput = 0;
     [SerializeField] float landDistance = 0.8f;
     [SerializeField] LayerMask groundMask;
 
@@ -34,17 +35,30 @@ public class GlideControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!isGliding) return;
+        if (!isGliding) ; //return;
 
-       
-        float rotation = Input.GetAxis("Horizontal") * turnSpeed * Time.fixedDeltaTime;
+        float horizontalInput = playerCtrl.GetInputVector().x;
+
+        float rotation = horizontalInput * turnSpeed * Time.fixedDeltaTime;
         transform.Rotate(0, rotation, 0);
 
-      
-        Vector3 glideVel = transform.forward * glideSpeed;
-        glideVel.y = glideGravity;
+        //if (Keyboard.current != null)
+        //{
+        //    if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) horizontalInput = 1;
+        //    else if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) horizontalInput = -1;
+        //}
+        //float rotation = Input.GetAxis("Horizontal") * turnSpeed * Time.fixedDeltaTime;
+        //transform.Rotate(0, rotation, 0);
 
-        rb.linearVelocity = glideVel;
+        playerCtrl.SetVerticalVelocity(glideGravity);
+
+      Vector3 forwardMove = transform.forward * glideSpeed;
+        rb.linearVelocity = new Vector3(forwardMove.x, glideGravity, forwardMove.z);
+
+        //Vector3 glideVel = transform.forward * glideSpeed;
+        //glideVel.y = glideGravity;
+
+        //rb.linearVelocity = glideVel;
 
         CheckLanding();
     }

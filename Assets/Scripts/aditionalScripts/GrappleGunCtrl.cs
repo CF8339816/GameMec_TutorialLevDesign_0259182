@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class GrappleGunCtrl : MonoBehaviour
@@ -38,11 +39,23 @@ public class GrappleGunCtrl : MonoBehaviour
     {
         UpdateCrosshairVisibility();
 
-        if (Input.GetMouseButtonDown(2)) StartPullPlayer();
-        if (Input.GetMouseButtonUp(2)) StopGrapple();
+    
+        if (Mouse.current == null) return;
 
-        if (Input.GetMouseButtonDown(1)) StartPullObject();
-        if (Input.GetMouseButtonUp(1)) StopGrapple();
+    
+        if (Mouse.current.middleButton.wasPressedThisFrame) StartPullPlayer();
+        if (Mouse.current.middleButton.wasReleasedThisFrame) StopGrapple();
+
+     
+        if (Mouse.current.rightButton.wasPressedThisFrame) StartPullObject();
+        if (Mouse.current.rightButton.wasReleasedThisFrame) StopGrapple();
+        //UpdateCrosshairVisibility();
+
+        //if (Input.GetMouseButtonDown(2)) StartPullPlayer();
+        //if (Input.GetMouseButtonUp(2)) StopGrapple();
+
+        //if (Input.GetMouseButtonDown(1)) StartPullObject();
+        //if (Input.GetMouseButtonUp(1)) StopGrapple();
     }
 
     void LateUpdate()
@@ -75,12 +88,18 @@ public class GrappleGunCtrl : MonoBehaviour
     {
         if (canGrappleCrosshair == null) return;
 
-    
         Transform camTransform = playerScript.firstPersonCam.transform;
+
         bool canGrapple = Physics.Raycast(camTransform.position, camTransform.forward, out RaycastHit hit, maxDistance, Grappleable);
 
         canGrappleCrosshair.enabled = canGrapple;
-        NormalDotSite.enabled = !canGrapple;
+        if (NormalDotSite != null) NormalDotSite.enabled = !canGrapple;
+        
+        //Transform camTransform = playerScript.firstPersonCam.transform;
+        //bool canGrapple = Physics.Raycast(camTransform.position, camTransform.forward, out RaycastHit hit, maxDistance, Grappleable);
+
+        //canGrappleCrosshair.enabled = canGrapple;
+        //NormalDotSite.enabled = !canGrapple;
     }
 
     void StartPullPlayer()
