@@ -5984,6 +5984,11 @@ PrefabInstance:
       objectReference: {fileID: 1790220367}
     - target: {fileID: 2738380567816245834, guid: 11a0fc37ad0fcd84ea652130b8070601,
         type: 3}
+      propertyPath: moveController
+      value: 
+      objectReference: {fileID: 1688689667}
+    - target: {fileID: 2738380567816245834, guid: 11a0fc37ad0fcd84ea652130b8070601,
+        type: 3}
       propertyPath: ActiveCheckPoint
       value: 
       objectReference: {fileID: 1036470979}
@@ -6168,6 +6173,18 @@ LineRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 1578120407}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1688689667 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 11400008, guid: 11a0fc37ad0fcd84ea652130b8070601,
+    type: 3}
+  m_PrefabInstance: {fileID: 1578120407}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688689658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b19b7321190d38e4eb5e1c731abdf900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1688689669
 MonoBehaviour:
   m_ObjectHideFlags: 0
